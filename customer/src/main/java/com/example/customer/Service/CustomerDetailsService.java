@@ -10,6 +10,8 @@ import com.example.customer.Repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerDetailsService {
@@ -17,7 +19,12 @@ public class CustomerDetailsService {
     private final CustomerDetailsRepository customerDetailsRepository;
     private final CustomerRepository customerRepository;
 
-// setter and getter
+    // setter and getter
+
+    public List<CustomerDetails> getAllDetails() {
+        return customerDetailsRepository.findAll();
+    }
+
     public void adDetails(CustomerDetailsDTO dto) {
         Customer customer = customerRepository.findCustomerById(dto.getCustomer_id());
 
@@ -28,12 +35,18 @@ public class CustomerDetailsService {
         customerDetailsRepository.save(customerDetails);
     }
 
-//    public void updateDetails(CustomerDetailsDTO detailsDTO) {
-//        Customer customer = customerRepository.findCustomerById(detailsDTO.getCustomer_id());
-//
-//        if (customer == null){
-//            throw new ApiException("cant add customer, customer not found ");
-//        }
-//        customerDetailsRepository.
+    public CustomerDetails updateDetails(CustomerDetailsDTO detailsDTO) {
+
+        // retrieve the CustomerDetails object
+        CustomerDetails customerDetails = customerDetailsRepository.findCustomerDetailsById(detailsDTO.getCustomer_id());
+
+        // update the fields of the retrieved CustomerDetails object
+        customerDetails.setGender(detailsDTO.getGender());
+        customerDetails.setAge(detailsDTO.getAge());
+        customerDetails.setEmail(detailsDTO.getEmail());
+
+        // save the updated CustomerDetails object
+        return customerDetailsRepository.save(customerDetails);
     }
 
+}

@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerDetailsRepository extends JpaRepository <CustomerDetails, Integer> {
 
+    CustomerDetails findCustomerDetailsById(Integer id);
+
+
 
 
 }
